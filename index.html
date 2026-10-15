@@ -498,6 +498,17 @@ body{padding-inline:clamp(16px,3vw,40px);padding-block:24px 80px;background:radi
 .sk-list em{font-style:normal;color:var(--chakra);font-size:12px}
 .atk{display:inline-block;font-family:var(--f-data);font-size:11px;font-weight:500;color:var(--good);background:var(--good-soft);border-radius:999px;padding:1px 8px;margin-left:4px;white-space:nowrap}
 @media (max-width:800px){ .why-grid{grid-template-columns:1fr;gap:22px} }
+
+/* character database (reference list) */
+.dbpanel{margin-top:18px}
+.dbpanel summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.03em;display:flex;justify-content:space-between;align-items:center;gap:8px;list-style:none}
+.dbpanel summary::-webkit-details-marker{display:none}
+.dbnote{color:var(--muted);font-size:13px;margin:8px 0 0}
+.dbtbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.dbtbl th{text-align:left;font-family:var(--f-display);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-bottom:2px solid var(--line);padding:4px 6px}
+.dbtbl td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.dbtbl .have{font-family:var(--f-data);font-size:11px;color:var(--good)}
+.dbwrap{overflow-x:auto}
 </style>
 
 <noscript><div class="nojs"><b>This page needs JavaScript to run.</b><br>If you opened it from the Files app, that preview blocks it. Open the file in a web browser instead, or use the shared link.</div></noscript>
@@ -530,6 +541,17 @@ body{padding-inline:clamp(16px,3vw,40px);padding-block:24px 80px;background:radi
       </div>
       <div class="pick-grid" id="pickGrid"></div>
     </section>
+
+    <details class="panel dbpanel" id="dbPanel">
+      <summary>Character database <span class="badge" id="dbCount"></span></summary>
+      <p class="dbnote">Reference list of characters from launch through the Utakata banner, plus Emergency Mission drops. Only rarity, element and range are known for most of them, so these are for looking up, not for the team builder yet. Characters already in the builder are marked.</p>
+      <div class="controls">
+        <input type="search" id="dbq" placeholder="Search name or title" aria-label="Search database">
+        <select id="dbSrc" aria-label="Filter by source"><option value="">Any source</option><option value="L">Launch roster / banners</option><option value="R">Emergency: raid</option><option value="I">Emergency: impact raid</option><option value="B">Emergency: blitz raid</option></select>
+        <select id="dbEl" aria-label="Filter by element"><option value="">Any element</option><option value="HRT">Heart</option><option value="SKL">Skill</option><option value="BOD">Body</option><option value="BRV">Bravery</option><option value="WIS">Wisdom</option></select>
+      </div>
+      <div class="dbwrap"><table class="dbtbl"><thead><tr><th>Character</th><th>Title</th><th>Rarity</th><th>Element</th><th>Range</th><th>Source</th></tr></thead><tbody id="dbBody"></tbody></table></div>
+    </details>
     <div class="pickbar">
       <div><b id="pickBarTxt">0</b> selected<small>You can still plan with characters you do not own by turning on "Show characters I do not own" under Options in the builder.</small></div>
       <button class="btn primary" id="goBuild" type="button">Continue to team builder</button>
@@ -1162,4 +1184,23 @@ window.addEventListener('pointercancel',function(e){ if(drag&&e.pointerId===drag
   var pg=lsGet('ntb-page');
   setPage((ownedCount()>0&&pg!=='pick')?'build':'pick',true);
 })();
+var DB=[["Gaara","Sand Defense",6,"BRV","Long","L"],["Haku","Frozen Heart",6,"BOD","Mid","L"],["Kakashi Hatake","Copier of 1k Skills",6,"BRV","Mid","L"],["Zabuza Momochi","Silence of Madness",6,"WIS","Mid","L"],["Naruto Uzumaki","No.1 Maverick",6,"HRT","Mid","L"],["Sasuke Uchiha","Lone Survivor",6,"SKL","Short","L"],["Kakashi Hatake","Hidden Left Eye",6,"SKL","Mid","L"],["Sakura Haruno","Maiden in Love",5,"WIS","Long","L"],["Shino Aburame","Cold Beetle User",5,"WIS","Long","L"],["Shikamaru Nara","Lazy Guy",5,"WIS","Long","L"],["Tayuya","Tayuya of the North Gate",5,"HRT","Long","L"],["Hiruzen Sarutobi","The Third Hokage",5,"HRT","Long","L"],["Kidomaru","Kidomaru of the East Gate",5,"SKL","Long","L"],["Orochimaru","The Horror Returns",5,"SKL","Long","L"],["Tenten","Ninja Tool Specialist",5,"SKL","Long","L"],["Kisame Hoshigaki","Monster of the Mist",5,"BOD","Mid","L"],["Jirobo","Jirobo of the South Gate",5,"BOD","Mid","L"],["Iruka Umino","Sympathizer",5,"BOD","Mid","L"],["Kiba Inuzuka","Wild Partners",5,"BRV","Mid","L"],["Itachi Uchiha","A Cold-Hearted Criminal",5,"WIS","Mid","L"],["Kabuto Yakushi","The Sound's Spy",5,"WIS","Mid","L"],["Kakashi Hatake","",5,"WIS","Mid","L"],["Kimimaro","Kimimaro of the Earth",5,"HRT","Mid","L"],["Jiraiya","Enter the Sage",5,"HRT","Mid","L"],["Naruto Uzumaki","The Worst Loser",5,"HRT","Mid","L"],["Haku","Blade of Ice",5,"HRT","Mid","L"],["Ino Yamanaka","Truly Wise",5,"SKL","Mid","L"],["Haku","For important people",5,"SKL","Mid","L"],["Hinata Hyuga","Nice Girl",5,"SKL","Short","L"],["Choji Akimichi","Glutton",5,"BOD","Short","L"],["Sakon","Sakon of the West Gate",5,"WIS","Short","L"],["Neji Hyuga","An Unchangeable Destiny",5,"WIS","Short","L"],["Sasuke Uchiha","",5,"SKL","Short","L"],["Konohamaru Sarutobi","The Third's Last Stand",4,"BRV","Mid","L"],["Hayate Gekko","Third Round Prelim Judge",4,"BRV","Mid","L"],["Naruto Uzumaki","Boy Who Aims to be Hokage",4,"BRV","Mid","L"],["Anko Mitarashi","Dangerous Dumpling Lover",4,"WIS","Mid","L"],["Shizune","Tsunade's Attendant",4,"HRT","Mid","L"],["Baki","Protector of the Village",4,"SKL","Mid","L"],["Mizuki","Hidden Ambitions",4,"SKL","Mid","L"],["Kakko","Powerful and Aggressive",4,"BOD","Short","L"],["Ibiki Morino","Sadist",4,"BRV","Short","L"],["Hizashi Hyuga","Brotherly Fate",4,"BRV","Short","L"],["Choza Akimichi","The Ino-Shika-Cho Trio",4,"BRV","Short","L"],["Hiashi Hyuga","A Strict Leader",4,"HRT","Short","L"],["Tsume Inuzuka","A Brave Mother",3,"BOD","","L"],["Inoichi Yamanaka","The Ino-Shika-Cho Trio",3,"HRT","Long","L"],["Shibi Aburame","A Reticent Man",3,"SKL","Long","L"],["Shikaku Nara","The Ino-Shika-Cho Trio",3,"WIS","Mid","L"],["Rock Lee","The Eight Gates",6,"BOD","Short","L"],["Rock Lee","Never Gives Up",5,"BOD","Short","L"],["Neji Hyuga","The Caged Bird",6,"SKL","Short","L"],["Sakura Haruno","",6,"WIS","Short","L"],["Ino Yamanaka","",5,"HRT","Long","L"],["Hinata Hyuga","",5,"BRV","Short","L"],["Utakata","Fleeting Tranquility",6,"SKL","Long","L"],["Kakashi Hatake","The Best Teacher",0,"","","R"],["Zabuza Momochi","The Demon Returns",0,"","","R"],["Haku","The Icy Mask's Blades",0,"","","R"],["Rock Lee","Never Gives Up",0,"","","R"],["Orochimaru","The Snake Ninja",0,"","","R"],["Gaara","Sand Clad Demon",0,"","","R"],["Temari","A Bold Analyzer",0,"","","R"],["Kankuro","Mechanical Puppeteer",0,"","","R"],["Itachi Uchiha","Limits of his Ability",0,"","","R"],["Jirobo","Brute Strength",0,"","","R"],["Kidomaru","A Cruel Game",0,"","","R"],["Sai","Mask-like Smile",0,"","","R"],["Ukon/Sakon","Brimming with Brutality",0,"","","R"],["Tayuya","A Bewitching Flute",0,"","","R"],["Gaara","The Strongest Shield",0,"","","R"],["Kimimaro","The Strongest Spear",0,"","","R"],["Rou","Meting Presence",0,"","","R"],["Soku","Stubborn Will",0,"","","R"],["Suigetsu Hozuki","The Demon Lives On",0,"","","R"],["Jugo","Scales of Ruin and Peace",0,"","","R"],["Tobi","Evil Eyes Behind Mask",0,"","","R"],["Chiruku","Ultimate Training",0,"","","R"],["Hanzo","Hero of Purple Poison",0,"","","R"],["Deidara","True Arts",0,"","","R"],["Chojuro","Successor of the Ninja Sword",0,"","","R"],["Zetsu","Black and White Lurking in the Earth",0,"","","R"],["Asuma Sarutobi","Master's Teachings",0,"","","R"],["Zabuza Momochi","The Measure of the Demon",0,"","","R"],["Rasa","Family Values",0,"","","R"],["Jiraiya","The Toad Ninja",0,"","Short","I"],["Kushina Uzumaki","A Red-Hot Habanero",0,"","Mid","I"],["Sasuke Uchiha","Curse Mark 2nd State",0,"","Mid","I"],["Orochimaru","Corrupt Rebirth",0,"","Mid","I"],["Naruto Uzumaki","Power of the Fourth Tail",0,"","Long","I"],["Gengo","Master of Silence",0,"","Long","I"],["Itachi Uchiha","Shura's Truth",0,"","Mid","I"],["Kisame Hoshigaki","Ruler of the Torrent",0,"","Mid","I"],["Yugito Ni'i","Unbreakable Will",0,"","Short","I"],["Pain (Tendo)","Hammer of Pain",0,"","Mid","I"],["Danzo Shimura","Root of the Great Tree",0,"","Mid","I"],["Kabuto Yakushi","Craving for Wisdom",0,"","Long","I"],["Obito Uchiha","Faraway Dream",0,"","Mid","I"],["Haku","Tears of the Ice Mirror",0,"","Short","I"],["Madara Uchiha","Eyes of the Moon",0,"","Mid","I"],["Hashirama Senju","Father of Leaf Village",0,"","Short","B"],["Tobirama Senju","Father of Reanimation",0,"","Short","B"]];
+var DBSRC={L:'Launch / banner',R:'Emergency: raid',I:'Emergency: impact raid',B:'Emergency: blitz raid'};
+function renderDB(){
+  var q=$('dbq').value.trim().toLowerCase(), sr=$('dbSrc').value, el=$('dbEl').value;
+  var have={}; CHARS.forEach(function(c){have[(c.name+'|'+c.title).toLowerCase()]=1;});
+  var rows=DB.filter(function(d){
+    if(q&&(d[0]+' '+d[1]).toLowerCase().indexOf(q)===-1) return false;
+    if(sr&&d[5]!==sr) return false;
+    if(el&&d[3]!==el) return false;
+    return true;
+  });
+  $('dbCount').textContent=rows.length+' of '+DB.length;
+  $('dbBody').innerHTML=rows.map(function(d){
+    var mark=have[(d[0]+'|'+d[1]).toLowerCase()]?' <span class="have">in builder</span>':'';
+    return '<tr><td>'+esc(d[0])+mark+'</td><td>'+esc(d[1]||'—')+'</td><td>'+(d[2]?d[2]+'★':'—')+'</td><td>'+(d[3]||'—')+'</td><td>'+(d[4]||'—')+'</td><td>'+DBSRC[d[5]]+'</td></tr>';
+  }).join('')||'<tr><td colspan="6">No matches.</td></tr>';
+}
+['dbq','dbSrc','dbEl'].forEach(function(id){$(id).addEventListener('input',renderDB);});
+renderDB();
 </script>
